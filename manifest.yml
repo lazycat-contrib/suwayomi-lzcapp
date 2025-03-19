@@ -1,0 +1,39 @@
+lzc-sdk-version: "0.1"
+name: Suwayomi
+package: cloud.lazycat.app.suwayomi
+version: 1.1.1
+description: 开源漫画阅读器
+homepage: https://github.com/Suwayomi
+author: Suwayomi
+application:
+  subdomain: suwayomi
+  background_task: true
+  multi_instance: false
+  gpu_accel: false
+  kvm_accel: false
+  usb_accel: false
+  public_path:
+    - /
+    - /resolver
+  routes:
+    - /=http://suwayomi:4567/
+    - /resolver=http://flaresolverr:8191/
+  
+services:
+  suwayomi:
+    image: registry.lazycat.cloud/czyt/suwayomi/suwayomi-server:c12ae59f77ece945
+    environment:
+      - TZ=Asia/Shanghai
+      - FLARESOLVERR_ENABLED=true
+      - FLARESOLVERR_URL=/resolver
+      - UID=1037
+      - GID=100
+    binds:
+      - /lzcapp/var/Tachidesk:/home/suwayomi/.local/share/Tachidesk
+    setup_script: |
+      mkdir -p /lzcapp/var/Tachidesk
+      chmod 777 /lzcapp/var/Tachidesk
+  flaresolverr:
+    image: registry.lazycat.cloud/czyt/thephaseless/byparr:a7abe78e6ff4a79d
+    environment:
+      - TZ=Asia/Shanghai

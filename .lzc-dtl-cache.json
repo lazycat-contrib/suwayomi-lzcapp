@@ -1,0 +1,46 @@
+{
+  "name": "Suwayomi",
+  "package": "cloud.lazycat.app.suwayomi",
+  "description": "开源漫画阅读器",
+  "homepage": "https://github.com/Suwayomi",
+  "author": "Suwayomi",
+  "app_features": [
+    "background_task",
+    "public_path"
+  ],
+  "subdomain": "suwayomi",
+  "version": "1.1.1",
+  "public_paths": [
+    "/"
+  ],
+  "iconPath": "icon.png",
+  "composePath": "docker-compose.yml",
+  "unsupported_platforms": [],
+  "lastRouteType": "from_compose",
+  "port_mappings": {
+    "suwayomi_4567_4567": {
+      "use": true,
+      "type": "http",
+      "path": "/",
+      "targetPath": "/"
+    },
+    "flaresolverr_8191_8191": {
+      "use": true,
+      "type": "http",
+      "path": "/resolver",
+      "targetPath": "/"
+    }
+  },
+  "image_ghcr.io_suwayomi_suwayomi-server_preview": {
+    "originalImage": "ghcr.io/suwayomi/suwayomi-server:preview",
+    "pushTarget": "lazycat",
+    "newImageName": "registry.lazycat.cloud/czyt/suwayomi/suwayomi-server:c12ae59f77ece945",
+    "timestamp": "2025-03-19T12:05:06.095Z"
+  },
+  "suwayomi_volume_/home/suwayomi/.local/share/Tachidesk_action": "emptyDir",
+  "suwayomi_volume_/home/suwayomi/.local/share/Tachidesk_location": "app_data",
+  "image_ghcr.io_thephaseless_byparr_latest": {
+    "originalImage": "ghcr.io/thephaseless/byparr:latest",
+    "pushTarget": "none"
+  }
+}
