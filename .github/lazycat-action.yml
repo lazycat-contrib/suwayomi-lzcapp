@@ -26,17 +26,9 @@ images:
     tag_regex: '^v\d+\.\d+\.\d+$'
     delivery:
       mode: mirror
-  # 辅助 flaresolverr：上游只有 mutable tag（latest/main/nightly），digest-pin 并校验镜像站 digest
-  - id: byparr
-    target: service
-    service: flaresolverr
-    source: ghcr.io/thephaseless/byparr
-    channel: custom
-    sort: created
-    tag_regex: '^latest$'
-    delivery:
-      mode: mirror
-      require_digest_match: true
+  # 辅助 flaresolverr（byparr）不注册：上游只有 mutable tag（latest/main/nightly，无 immutable 家族），
+  # 而 bump:patch 仅适用于 version_source 镜像；若注册会被以非 mutable 路径重写 manifest 并剥掉
+  # digest-pin（裸 latest 会 CONFIG_INVALID）。保持 manifest 中 digest-pinned 静态引用即可。
 
 stores:
   official:
