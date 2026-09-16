@@ -1,0 +1,49 @@
+version: 1
+
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: .lazycat-build/suwayomi.lpk
+  target_arch: amd64
+
+update:
+  strategy: publish
+  allow_downgrade: false
+  version_source:
+    type: image
+    image: suwayomi
+build:
+  run_buildscript: false
+images:
+  # 主应用：上游 tag 家族 v<major>.<minor>.<build>（v1.1.1719~v2.1.1999），排除 latest/stable/preview 与 -r 后缀旧 tag
+  - id: suwayomi
+    target: service
+    service: suwayomi
+    source: ghcr.io/suwayomi/suwayomi-server
+    channel: stable
+    sort: semver
+    tag_regex: '^v\d+\.\d+\.\d+$'
+    delivery:
+      mode: mirror
+  # 辅助 flaresolverr：上游只有 mutable tag（latest/main/nightly），digest-pin 并校验镜像站 digest
+  - id: byparr
+    target: service
+    service: flaresolverr
+    source: ghcr.io/thephaseless/byparr
+    channel: custom
+    sort: created
+    tag_regex: '^latest$'
+    delivery:
+      mode: mirror
+      require_digest_match: true
+
+stores:
+  official:
+    # Official store publication is intentionally disabled; publish only to Miaomiao Store.
+    enabled: false
+  private:
+    enabled: true
+    skip_if_version_exists: true
+    name: Suwayomi
+    summary: "开源漫画阅读器"
