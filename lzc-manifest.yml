@@ -12,8 +12,8 @@ application:
       backend: http://flaresolverr:8191/
 services:
   suwayomi:
-    # upstream: ghcr.io/suwayomi/suwayomi-server:v2.4.2511
-    image: ghcr.1ms.run/suwayomi/suwayomi-server:v2.4.2511
+    # upstream: ghcr.io/suwayomi/suwayomi-server:v2.4.2512
+    image: ghcr.1ms.run/suwayomi/suwayomi-server:v2.4.2512
     environment:
       - TZ=Asia/Shanghai
       - FLARESOLVERR_ENABLED=true
